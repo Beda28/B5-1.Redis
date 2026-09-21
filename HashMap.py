@@ -87,6 +87,14 @@ class HashMap:
 
         self.capacity *= 2
         self.buckets   = [None] * self.capacity
+        self.count     = 0
+
+        for buckit in old_bucket:
+            current = buckit
+
+            while current is not None:
+                self.put(current.key, current.value)
+                current = current.next
 
 class Node:
     def __init__(self, key, value):
