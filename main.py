@@ -9,8 +9,8 @@ def main():
         command = value.split(" ")
         redis   = RedisKeyValue()
 
-        if   command[0] == "SET"    : return
-        elif command[0] == "GET"    : return
+        if   command[0] == "SET"    : redis.SET(command[1], command[2])
+        elif command[0] == "GET"    : redis.GET(command[1])
         elif command[0] == "DEL"    : return
         elif command[0] == "EXISTS" : return
         elif command[0] == "DBSIZE" : return

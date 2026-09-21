@@ -11,15 +11,23 @@ class HashMap:
             hash_value = hash_value * 31 + ord(char)
         return hash_value % self.capacity
 
-    def put(self, key, value):
+    def _find_node(self, key):
         index   = self._hash(key)
         current = self.buckets[index]
 
         while current is not None:
             if current.key == key:
-                current.value = value
-                return
+                return current
             current = current.next
+
+        return None
+
+    def put(self, key, value):
+        current = self._find_node(key)
+
+        if current is not Node:
+            current.value = value
+            return
 
         new_node            = Node(key, value)
         new_node.next       = self.buckets[index]
@@ -30,7 +38,14 @@ class HashMap:
             pass
 
     def get(self, key):
-        pass
+        current = self._find_node(key)
+
+        if current is not Node: 
+            return current.value        
+        return None
+
+    def contains(self, key):
+        return self._find_node(key) is not None
 
 class Node:
     def __init__(self, key, value):
