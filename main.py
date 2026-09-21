@@ -10,10 +10,10 @@ def main():
 
         if   command[0] == "SET"    : redis.PUT(command[1], command[2])
         elif command[0] == "GET"    : redis.GET(command[1])
-        elif command[0] == "DEL"    : return
+        elif command[0] == "DEL"    : redis.DEL(command[1])
         elif command[0] == "EXISTS" : redis.CONTAINS(command[1])
-        elif command[0] == "DBSIZE" : return
-        elif command[0] == "KEYS"   : return
+        elif command[0] == "DBSIZE" : redis.SIZE()
+        elif command[0] == "KEYS"   : redis.KEYS()
 
         elif command[0] == "CONFIG" : return
         elif command[0] == "INFO"   : return

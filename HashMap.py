@@ -36,7 +36,7 @@ class HashMap:
         self.count         += 1
 
         if self.count / self.capacity > self.factor: 
-            pass
+            self._resize()
 
     def get(self, key):
         current = self._find_node(key)
@@ -45,8 +45,48 @@ class HashMap:
             return current.value        
         return None
 
+    def remove(self, key):
+        index    = self._hash(key)
+        current  = self.buckets[index]
+        previous = None
+
+        while current is not None:
+            if current.key == key:
+                if previous is None:
+                    self.buckets[index] = current.next
+                else: 
+                    previous.next = current.next
+                
+                self.count -= 1
+                return True
+            
+            previous = current
+            current  = current.next
+        return False
+
     def contains(self, key):
         return self._find_node(key) is not None
+
+    def keys(self):
+        result = []
+
+        for buckit in self.buckets:
+            current = buckit
+
+            while current is not None:
+                result.append(current.key)
+                current = current.next
+
+        return result
+
+    def size(self):
+        return self.count
+
+    def _resize(self):
+        old_bucket = self.buckets
+
+        self.capacity *= 2
+        self.buckets   = [None] * self.capacity
 
 class Node:
     def __init__(self, key, value):
