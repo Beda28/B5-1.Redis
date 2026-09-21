@@ -23,9 +23,10 @@ class HashMap:
         return None
 
     def put(self, key, value):
+        index   = self._hash(key)
         current = self._find_node(key)
 
-        if current is not Node:
+        if current is not None:
             current.value = value
             return
 
@@ -40,7 +41,7 @@ class HashMap:
     def get(self, key):
         current = self._find_node(key)
 
-        if current is not Node: 
+        if current is not None: 
             return current.value        
         return None
 

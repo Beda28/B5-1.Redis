@@ -7,12 +7,11 @@ def main():
         value   = input("mini redis> ")
         if (value == "exit" or value == 'quit'): break
         command = value.split(" ")
-        redis   = RedisKeyValue()
 
-        if   command[0] == "SET"    : redis.SET(command[1], command[2])
+        if   command[0] == "SET"    : redis.PUT(command[1], command[2])
         elif command[0] == "GET"    : redis.GET(command[1])
         elif command[0] == "DEL"    : return
-        elif command[0] == "EXISTS" : return
+        elif command[0] == "EXISTS" : redis.CONTAINS(command[1])
         elif command[0] == "DBSIZE" : return
         elif command[0] == "KEYS"   : return
 
