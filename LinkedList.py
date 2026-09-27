@@ -17,32 +17,36 @@ class LinkedList:
             self.head = node
         
         self._size += 1
+        return node
 
-    def remove(self, key):
-        current = self.head
+    def remove_node(self, node):
+        if node.prev : node.prev.next = node.next
+        else         : self.head      = node.next
 
-        while current:
-            if current.key == key:
-                if current.prev: current.prev.next = current.next
-                else           : self.head         = current.next
+        if node.next : node.next.prev = node.prev
+        else         : self.tail      = node.prev
 
-                if current.next: current.next.prev = current.prev
-                else           : self.tail         = current.prev
+        node.prev = None
+        node.next = None
 
-                self._size -= 1
-                return True
+        self._size -1
 
-            current = current.next
-        return False
+    def move_to_front(self, node):
+        if node == self.head: return
 
-    def touch(self, key):
-        self.remove(key)
-        self.add_first(key)
+        if node.prev : node.prev.next = node.next
+        if node.next : node.next.prev = node.prev
+        else         : self.tail      = node
+
+        node.prev      = None
+        node.next      = self.head
+        self.head.prev = node
+        self.head      = node
 
     def pop_last(self):
         if self.tail is None: return None
 
-        key = self.tail.key
+        node = self.tail
 
         if self.head == self.tail:
             self.head = None
@@ -51,8 +55,11 @@ class LinkedList:
             self.tail      = self.tail.prev
             self.tail.next = None
 
+        node.prev = None
+        node.next = None
+
         self._size -= 1
-        return key
+        return node
 
 class Node:
     def __init__(self, key):
