@@ -29,14 +29,14 @@ class LinkedList:
         node.prev = None
         node.next = None
 
-        self._size -1
+        self._size -= 1
 
     def move_to_front(self, node):
         if node == self.head: return
 
         if node.prev : node.prev.next = node.next
         if node.next : node.next.prev = node.prev
-        else         : self.tail      = node
+        else         : self.tail      = node.prev
 
         node.prev      = None
         node.next      = self.head

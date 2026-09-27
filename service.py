@@ -33,7 +33,7 @@ class RedisKeyValue:
         self.Hash.remove(key)
         self.LRU.remove(key)
         self.Exp.remove(key)
-        
+
         self.evicted_keys += 1
 
     def _delete_key(self, key):
@@ -47,7 +47,7 @@ class RedisKeyValue:
         if node is not None: self.Link.remove_node(node)
 
         self.Hash.remove(key)
-        self.Link.remove(key)
+        self.LRU.remove(key)
         self.Exp.remove(key)
 
     def _check_expire(self, key):
@@ -88,6 +88,7 @@ class RedisKeyValue:
         
         if old_value is not None:
             self.use_memory -= self._memory_size(key, old_value)
+            if node is not None: self.Link.move_to_front(node)
         
         self.Exp.remove(key)
 
@@ -101,8 +102,6 @@ class RedisKeyValue:
         if node is None:
             node = self.Link.add_first(key)
             self.LRU.put(key, node)
-        else:
-            self.Link.move_to_front(node)
 
         self.use_memory += new_size
         print("OK")

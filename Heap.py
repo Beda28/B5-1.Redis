@@ -40,10 +40,10 @@ class Heap:
             right = index * 2 + 2
             small = index
 
-            if left < size and 
+            if left < size and \
                self.data[left][0]  < self.data[small][0]: small = left
 
-            if right < size and 
+            if right < size and \
                self.data[right][0] < self.data[small][0]: small = right
 
             if small == index: break
