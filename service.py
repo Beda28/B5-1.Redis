@@ -21,7 +21,7 @@ class RedisKeyValue:
         return len(str(key).encode("utf-8")) + len(str(value).encode("utf-8"))
 
     def _evict_lru(self):
-        node = self.Link.pop_last()
+        node = self.Link.remove_back()
         if node is None: return
 
         key   = node.key
@@ -100,7 +100,7 @@ class RedisKeyValue:
         self.Hash.put(key, value)
 
         if node is None:
-            node = self.Link.add_first(key)
+            node = self.Link.insert_front(key)
             self.LRU.put(key, node)
 
         self.use_memory += new_size
