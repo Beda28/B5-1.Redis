@@ -15,13 +15,13 @@ def main():
         elif command[0] == "DBSIZE" : redis.SIZE()
         elif command[0] == "KEYS"   : redis.KEYS()
 
-        elif command[0] == "CONFIG" : return
-        elif command[0] == "INFO"   : return
+        elif command[0] == "CONFIG" : redis.CONFIG(command[1], command[2], command[3])
+        elif command[0] == "INFO"   : redis.INFO(command[1])
 
         elif command[0] == "EXPIRE" : return
         elif command[0] == "TTL"    : return
 
-        else: return print("똑바로 가져와")
+        else: print("똑바로 가져와")
 
 if __name__ == "__main__":
     main()
