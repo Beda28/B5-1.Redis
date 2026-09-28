@@ -137,8 +137,8 @@ class RedisKeyValue:
         print(f"(integer) {self.Hash.size()}")
 
     def CONFIG(self, arg1: str, arg2: str, arg3: str):
-        if arg1 != 'SET'       : return
-        if arg2 != "maxmemory" : return
+        if arg1.upper() != 'SET' or arg2.lower() != "maxmemory":
+            return print("(error) ERR syntax error")
 
         memory = int(arg3)
         if memory < 0:
@@ -156,7 +156,7 @@ class RedisKeyValue:
         
     
     def INFO(self, arg1: str):
-        if arg1 != "memory": return
+        if arg1.lower() != "memory": return print("(error) ERR syntax error")
 
         self._clear_expired()
         
