@@ -137,10 +137,10 @@ class RedisKeyValue:
         print(f"(integer) {self.Hash.size()}")
 
     def CONFIG(self, arg1: str, arg2: str, arg3: str):
-        memory = int(arg3)
-
         if arg1 != 'SET'       : return
         if arg2 != "maxmemory" : return
+
+        memory = int(arg3)
         if memory < 0:
             return print("(error) ERR value is not an integer or out of range")
 
@@ -161,7 +161,7 @@ class RedisKeyValue:
         self._clear_expired()
         
         print(f"used_memory : {self.use_memory}")
-        print(f"max_memory  : {self.max_memory}")
+        print(f"maxmemory   : {self.max_memory}")
         print(f"evicted_keys: {self.evicted_keys}")
 
     def EXPIRE(self, key: str, seconds: str):

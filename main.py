@@ -1,32 +1,44 @@
 from service import RedisKeyValue
 
+def execute(command, count, func):
+    if len(command) != count:
+        print(
+            f"(error) ERR wrong number of arguments "
+            f"for '{command[0].lower()}' command"
+        )
+        return
+    func(*command[1:])
+
 def main():
     redis = RedisKeyValue()
 
     while True:
         try: 
-            value      = input("mini redis> ")
+            value      = input("mini-redis> ")
             command    = value.split()
-            command[0] = command[0].upper()
+            if not command: continue
+
+            raw_command = command[0]
+            command[0]  = command[0].upper()
 
             if   command[0] in ("EXIT", "QUIT"): break
 
-            if   command[0] == "SET"    : redis.PUT(command[1], command[2])
-            elif command[0] == "GET"    : redis.GET(command[1])
-            elif command[0] == "DEL"    : redis.DEL(command[1])
-            elif command[0] == "EXISTS" : redis.CONTAINS(command[1])
-            elif command[0] == "DBSIZE" : redis.SIZE()
-            elif command[0] == "KEYS"   : redis.KEYS()
+            if   command[0] == "SET"    : execute(command, 3, redis.PUT)
+            elif command[0] == "GET"    : execute(command, 2, redis.GET)
+            elif command[0] == "DEL"    : execute(command, 2, redis.DEL)
+            elif command[0] == "EXISTS" : execute(command, 2, redis.CONTAINS)
+            elif command[0] == "DBSIZE" : execute(command, 1, redis.SIZE)
+            elif command[0] == "KEYS"   : execute(command, 1, redis.KEYS)
 
-            elif command[0] == "CONFIG" : redis.CONFIG(command[1], command[2], command[3])
-            elif command[0] == "INFO"   : redis.INFO(command[1])
+            elif command[0] == "CONFIG" : execute(command, 4, redis.CONFIG)
+            elif command[0] == "INFO"   : execute(command, 2, redis.INFO)
 
-            elif command[0] == "EXPIRE" : redis.EXPIRE(command[1], command[2])
-            elif command[0] == "TTL"    : redis.TTL(command[1])
+            elif command[0] == "EXPIRE" : execute(command, 3, redis.EXPIRE)
+            elif command[0] == "TTL"    : execute(command, 2, redis.TTL)
 
-            else: print("똑바로 가져와")
-        except IndexError:
-            print("잘못된 입력입니다. 다시 입력해주세요.")
+            else: print(f"(error) ERR unknown command '{raw_command}'")
+
+        except IndexError: print("(error) ERR value is not an integer or out of range")
             
 if __name__ == "__main__":
     main()

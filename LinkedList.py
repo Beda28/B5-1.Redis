@@ -42,12 +42,13 @@ class LinkedList:
             self.tail = None
         else:
             self.head      = node.next
-            self.head.prev = node
+            self.head.prev = None
 
         node.prev = None
         node.next = None
 
         self._size -= 1
+        return node
 
     def remove_back(self):
         if self.tail is None: return None
