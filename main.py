@@ -38,7 +38,7 @@ def main():
 
             else: print(f"(error) ERR unknown command '{raw_command}'")
 
-        except IndexError: print("(error) ERR value is not an integer or out of range")
+        except ValueError: print("(error) ERR value is not an integer or out of range")
             
 if __name__ == "__main__":
     main()
